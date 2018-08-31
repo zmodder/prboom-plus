@@ -750,9 +750,9 @@ static void P_BulletSlope(mobj_t *mo)
 // P_GunShot
 //
 
-static void P_GunShot(mobj_t *mo, dboolean accurate)
+static void P_GunShot(mobj_t *mo, dboolean accurate, int base_damage)
 {
-  int damage = 5*(P_Random(pr_gunshot)%3+1);
+  int damage = base_damage*(P_Random(pr_gunshot)%3+1);
   angle_t angle = mo->angle;
 
   if (!accurate)
@@ -779,7 +779,7 @@ void A_FirePistol(player_t *player, pspdef_t *psp)
 
   A_FireSomething(player,0);                                      // phares
   P_BulletSlope(player->mo);
-  P_GunShot(player->mo, !player->refire);
+  P_GunShot(player->mo, !player->refire, 8);
 }
 
 //
@@ -802,7 +802,7 @@ void A_FireShotgun(player_t *player, pspdef_t *psp)
   P_BulletSlope(player->mo);
 
   for (i=0; i<7; i++)
-    P_GunShot(player->mo, false);
+    P_GunShot(player->mo, false, 5);
 }
 
 //
@@ -857,7 +857,7 @@ void A_FireCGun(player_t *player, pspdef_t *psp)
 
   P_BulletSlope(player->mo);
 
-  P_GunShot(player->mo, !player->refire);
+  P_GunShot(player->mo, !player->refire, 5);
 }
 
 void A_Light0(player_t *player, pspdef_t *psp)
